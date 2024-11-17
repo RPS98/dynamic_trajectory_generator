@@ -602,6 +602,8 @@ namespace dynamic_traj_generator
     waypoint.resetWaypoint(getVehiclePosition());
     waypoint.setConstraint(1, Eigen::Vector3d::Zero());
     waypoint.setConstraint(2, Eigen::Vector3d::Zero());
+    waypoint.setConstraint(3, Eigen::Vector3d::Zero());
+    waypoint.setConstraint(4, Eigen::Vector3d::Zero());
 
     waypoints.emplace_front(waypoint);
   }

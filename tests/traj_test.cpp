@@ -113,40 +113,50 @@ int main(int argc, char ** argv)
   using DynamicWaypoint = dynamic_traj_generator::DynamicWaypoint;
 
   Eigen::Vector3d initial_position = Eigen::Vector3d(0.0, 0.0, 1.23);
-  double speed = 1.0;
+  double speed = 4.0;
 
   std::vector<Eigen::Vector3d> vector_waypoints;
-  // vector_waypoints.push_back(Eigen::Vector3d(3.05, 0.03, 1.23));
-  // vector_waypoints.push_back(Eigen::Vector3d(8.45, 3.55, 1.23));
+  // gate_1: [3.05, 0.0, 1.23, 0.0]  # [x, y, z, yaw]
+  // gate_2: [10.05, 5.0, 1.23, 0.0]  # [x, y, z]
+  // gate_3: [17.05, 0.0, 1.23]  # [x, y, z]
+  // gate_4: [24.05, 5.0, 1.23]  # [x, y, z]
+  vector_waypoints.push_back(Eigen::Vector3d(3.05, 0.0, 1.23));
+  vector_waypoints.push_back(Eigen::Vector3d(9.05, 5.0, 1.23));
+  vector_waypoints.push_back(Eigen::Vector3d(10.05, 5.0, 1.23));
+  vector_waypoints.push_back(Eigen::Vector3d(11.05, 5.0, 1.23));
+  vector_waypoints.push_back(Eigen::Vector3d(17.05, 0.0, 1.23));
+  vector_waypoints.push_back(Eigen::Vector3d(24.05, 5.0, 1.23));
+  vector_waypoints.push_back(Eigen::Vector3d(27.05, 5.0, 1.23));
+
   float square_side = 5.0;
   // vector_waypoints.push_back(Eigen::Vector3d(8.45, 3.55, 1.23));
   // vector_waypoints.push_back(Eigen::Vector3d(14.12, 0.0, 1.23));
   // vector_waypoints.push_back(Eigen::Vector3d(20.45, 3.55, 1.23));
   // vector_waypoints.push_back(Eigen::Vector3d(26.12, 0.0, 1.23));
 
-  auto center = Eigen::Vector3d(-5.0, 0.0, 1.23);
-  auto corner_u_l = Eigen::Vector3d(
-    center[0] - square_side / 2.0, center[1] + square_side / 2.0,
-    center[2]);
-  auto corner_u_r = Eigen::Vector3d(
-    center[0] + square_side / 2.0, center[1] + square_side / 2.0,
-    center[2]);
-  auto corner_l_r = Eigen::Vector3d(
-    center[0] + square_side / 2.0, center[1] - square_side / 2.0,
-    center[2]);
-  auto corner_l_l = Eigen::Vector3d(
-    center[0] - square_side / 2.0, center[1] - square_side / 2.0,
-    center[2]);
+  // auto center = Eigen::Vector3d(-5.0, 0.0, 1.23);
+  // auto corner_u_l = Eigen::Vector3d(
+  //   center[0] - square_side / 2.0, center[1] + square_side / 2.0,
+  //   center[2]);
+  // auto corner_u_r = Eigen::Vector3d(
+  //   center[0] + square_side / 2.0, center[1] + square_side / 2.0,
+  //   center[2]);
+  // auto corner_l_r = Eigen::Vector3d(
+  //   center[0] + square_side / 2.0, center[1] - square_side / 2.0,
+  //   center[2]);
+  // auto corner_l_l = Eigen::Vector3d(
+  //   center[0] - square_side / 2.0, center[1] - square_side / 2.0,
+  //   center[2]);
 
-  vector_waypoints.push_back(corner_l_l);
-  vector_waypoints.push_back(corner_u_l);
-  vector_waypoints.push_back(corner_u_r);
-  vector_waypoints.push_back(corner_l_r);
+  // vector_waypoints.push_back(corner_l_l);
+  // vector_waypoints.push_back(corner_u_l);
+  // vector_waypoints.push_back(corner_u_r);
+  // vector_waypoints.push_back(corner_l_r);
 
-  vector_waypoints.push_back(corner_l_l);
-  vector_waypoints.push_back(corner_u_l);
-  vector_waypoints.push_back(corner_u_r);
-  vector_waypoints.push_back(corner_l_r);
+  // vector_waypoints.push_back(corner_l_l);
+  // vector_waypoints.push_back(corner_u_l);
+  // vector_waypoints.push_back(corner_u_r);
+  // vector_waypoints.push_back(corner_l_r);
   // Eigen::Vector3d takeoff = Eigen::Vector3d(0.0, 0.0, 2.23);
   // Eigen::Vector3d land = Eigen::Vector3d(0.0, 0.0, 0.0);
   // vector_waypoints.push_back(takeoff);

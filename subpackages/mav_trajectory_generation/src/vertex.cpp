@@ -266,9 +266,9 @@ std::vector<double> estimateSegmentTimesNfabian(const Vertex::Vector& vertices,
     // double t = distance / v_max * 2 *
     //            (1.0 + magic_fabian_constant * v_max / a_max *
     //                       exp(-distance / v_max * 2));
-    double t = distance / v_max * 2.2;
+    double t = distance / (v_max) + v_max / a_max;
     if (i != 0 && i != vertices.size() - 2) {
-      t = distance / v_max * 1.1;
+      t = distance / v_max ;
     }
     segment_times.push_back(t);
   }
