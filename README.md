@@ -25,3 +25,6 @@ Bugs known:
 
 Dependencies:
 - YamlCPP (```$ sudo apt install libyaml-cpp* ```)
+
+
+cmake .. && make -j14 && ./traj_test && python3 ../plot_results.py

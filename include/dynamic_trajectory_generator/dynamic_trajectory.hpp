@@ -81,8 +81,8 @@ class DynamicTrajectory {
   // std::endl;
 
   // const int derivative_to_optimize_ = mav_trajectory_generation::derivative_order::JERK;
-  const int derivative_to_optimize_ = mav_trajectory_generation::derivative_order::ACCELERATION;
-  // const int derivative_to_optimize_ = mav_trajectory_generation::derivative_order::SNAP;
+  // const int derivative_to_optimize_ = mav_trajectory_generation::derivative_order::ACCELERATION;
+  const int derivative_to_optimize_ = mav_trajectory_generation::derivative_order::SNAP;
   // const int derivative_to_optimize_ =
   // mav_trajectory_generation::derivative_order::VELOCITY;
 
