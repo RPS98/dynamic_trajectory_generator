@@ -34,6 +34,17 @@ add_library(${PROJECT_NAME} ${SOURCE_CPP_FILES})
 target_link_libraries(${PROJECT_NAME} mav_trajectory_generation nlopt)
 target_include_directories(${PROJECT_NAME} PUBLIC include include/${PROJECT_NAME} ${EIGEN3_INCLUDE_DIRS})
 
+# Install
+install(TARGETS ${PROJECT_NAME}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION include/${PROJECT_NAME}
+)
+
 # Tests
 include(CTest)
 
