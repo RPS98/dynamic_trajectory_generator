@@ -4,7 +4,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
 # Read the CSV file
-file_path = "trajectory.csv"  # Replace with the path to your file
+file_path = "trajectory_new.csv"  # Replace with the path to your file
 data = pd.read_csv(file_path)
 
 # Extract columns
