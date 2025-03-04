@@ -57,5 +57,6 @@ endif()
 # add_executable(traj_test tests/traj_test.cpp)
 # target_link_libraries(traj_test ${PROJECT_NAME})
 
-add_executable(mini_traj_test tests/mini_traj_test.cpp)
-target_link_libraries(mini_traj_test ${PROJECT_NAME})
+
+add_executable(test tests/test.cpp)
+target_link_libraries(test ${PROJECT_NAME})
