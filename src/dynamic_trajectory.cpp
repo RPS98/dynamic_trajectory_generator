@@ -314,10 +314,13 @@ namespace dynamic_traj_generator
       double max_velocity = v_max;
       double max_acceleration = a_max;
       // If id start with ls, reduce max_velocity and max_acceleration to 1/2
-      std::string id = trajectory_waypoints[i].getName();
-      if (id.find("ls") != std::string::npos) {
-        max_velocity = v_max / 4;
-        max_acceleration = a_max / 4;
+      int next_waypoint = i + 1;
+      if (next_waypoint < trajectory_waypoints.size()) {
+        std::string id = trajectory_waypoints[next_waypoint].getName();
+        if (id.find("ls") != std::string::npos) {
+          max_velocity = v_max * ls_velocity_factor_;
+          max_acceleration = a_max * ls_acceleration_factor_;
+        }
       }
 
       Eigen::VectorXd start, end;

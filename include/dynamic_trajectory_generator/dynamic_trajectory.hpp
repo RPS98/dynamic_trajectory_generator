@@ -213,11 +213,6 @@ class DynamicTrajectory {
   ThreadSafeTrajectory computeTrajectory(const DynamicWaypoint::Deque &waypoints,
                                          const bool &lineal_optimization = false);
 
-  std::vector<double> estimateSegmentTimesCVAR(
-    const DynamicWaypoint::Deque & waypoints,
-    double v_max, double a_max,
-    mav_trajectory_generation::Vertex::Vector & vertices);
-
   Eigen::Vector3d evaluateModifiedTrajectory(const ThreadSafeTrajectory &traj, double global_time,
                                              double local_time, const int order = 0);
 
@@ -240,6 +235,22 @@ class DynamicTrajectory {
   DynamicWaypoint::Deque stitchActualTrajectoryWithNewWaypoints(
       double last_t_evaluated, const DynamicWaypoint::Deque &waypoints);
   DynamicWaypoint::Deque generateWaypointsForTheNextTrajectory();
+
+public:
+  double ls_velocity_factor_ = 1.0;
+  double ls_acceleration_factor_ = 1.0;
+
+  void setLowSpeedVelocityFactor(double ls_velocity_factor) {
+    ls_velocity_factor_ = ls_velocity_factor;
+  }
+  void setLowSpeedAccelerationFactor(double ls_acceleration_factor) {
+    ls_acceleration_factor_ = ls_acceleration_factor;
+  }
+
+  std::vector<double> estimateSegmentTimesCVAR(
+    const DynamicWaypoint::Deque & waypoints,
+    double v_max, double a_max,
+    mav_trajectory_generation::Vertex::Vector & vertices);
 };
 
 }  // namespace dynamic_traj_generator
