@@ -295,24 +295,71 @@ namespace dynamic_traj_generator
     return;
   }
 
+  std::vector<double> DynamicTrajectory::estimateSegmentTimesCVAR(
+      const DynamicWaypoint::Deque & trajectory_waypoints,
+      double v_max, double a_max,
+      mav_trajectory_generation::Vertex::Vector & vertices) {
+    using namespace mav_trajectory_generation;
+
+    vertices = extractVerticesFromWaypoints(trajectory_waypoints);
+    if (vertices.size() < 2)
+    {
+      throw std::runtime_error("Not enough waypoints");
+    }
+
+    CHECK_GE(vertices.size(), 2);
+    std::vector<double> segment_times;
+    segment_times.reserve(vertices.size() - 1);
+    for (size_t i = 0; i < vertices.size() - 1; ++i) {
+      double max_velocity = v_max;
+      double max_acceleration = a_max;
+      // If id start with ls, reduce max_velocity and max_acceleration to 1/2
+      std::string id = trajectory_waypoints[i].getName();
+      if (id.find("ls") != std::string::npos) {
+        max_velocity = v_max / 4;
+        max_acceleration = a_max / 4;
+      }
+
+      Eigen::VectorXd start, end;
+      vertices[i].getConstraint(derivative_order::POSITION, &start);
+      vertices[i + 1].getConstraint(derivative_order::POSITION, &end);
+      double distance = (end - start).norm();
+      double t;
+
+      Eigen::VectorXd speed_constraint_start;
+      bool has_speed_constraint_set_start = vertices[i].getConstraint(
+      derivative_order::VELOCITY, &speed_constraint_start);
+
+      Eigen::VectorXd speed_constraint_end;
+      bool has_speed_constraint_set_end = vertices[i + 1].getConstraint(
+      derivative_order::VELOCITY, &speed_constraint_end);
+
+
+      if ((has_speed_constraint_set_start && speed_constraint_start.norm() < 1e-6) ||
+          (has_speed_constraint_set_end && speed_constraint_end.norm() < 1e-6)) {
+        t = distance / max_velocity + max_velocity / max_acceleration;
+      } else {
+        t = distance / max_velocity;
+      }
+      segment_times.push_back(t);
+    }
+    return segment_times;
+  }
+
   ThreadSafeTrajectory DynamicTrajectory::computeTrajectory(const DynamicWaypoint::Deque &waypoints,
                                                             const bool &lineal_optimization)
   {
     parameters_mutex_.lock();
     float max_speed = parameters_.speed;
     parameters_mutex_.unlock();
-
-    /* auto vertices = extractVerticesFromWaypoints(waypoints); */
-    auto vertices = extractVerticesFromWaypoints(next_trajectory_waypoint_);
-    if (vertices.size() < 2)
-    {
-      throw std::runtime_error("Not enough waypoints");
-    }
+  
     const int N = 10;
     std::shared_ptr<mav_trajectory_generation::Trajectory> trajectory =
         std::make_shared<mav_trajectory_generation::Trajectory>();
-    auto segment_times =
-        mav_trajectory_generation::estimateSegmentTimes(vertices, max_speed, this->a_max_);
+
+    mav_trajectory_generation::Vertex::Vector vertices;
+    auto segment_times = estimateSegmentTimesCVAR(
+      next_trajectory_waypoint_, max_speed, this->a_max_, vertices);
     // Optimizer
     if (lineal_optimization)
     {

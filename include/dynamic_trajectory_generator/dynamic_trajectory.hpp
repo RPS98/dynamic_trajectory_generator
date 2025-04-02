@@ -213,6 +213,11 @@ class DynamicTrajectory {
   ThreadSafeTrajectory computeTrajectory(const DynamicWaypoint::Deque &waypoints,
                                          const bool &lineal_optimization = false);
 
+  std::vector<double> estimateSegmentTimesCVAR(
+    const DynamicWaypoint::Deque & waypoints,
+    double v_max, double a_max,
+    mav_trajectory_generation::Vertex::Vector & vertices);
+
   Eigen::Vector3d evaluateModifiedTrajectory(const ThreadSafeTrajectory &traj, double global_time,
                                              double local_time, const int order = 0);
 
