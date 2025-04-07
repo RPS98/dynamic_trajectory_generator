@@ -8,6 +8,7 @@
 #include <future>
 #include <iostream>
 #include <memory>
+#include <ostream>
 #include <string>
 #include <vector>
 
@@ -129,6 +130,10 @@ class DynamicTrajectory {
     waitForGeneratingNewTraj_thread_.join();
   }
 
+  const bool getComputingNewTrajectoryStatus() const {
+    return computing_new_trajectory_;
+  }
+
   dynamic_traj_generator::DynamicWaypoint::Vector getNextTrajectoryWaypoints(){
     dynamic_traj_generator::DynamicWaypoint::Vector next_trajectory_waypoint;
     // find values that are in t > parameters.last_local_time_evaluated
@@ -146,7 +151,24 @@ class DynamicTrajectory {
   };
 
   int getRemainingWaypoints(){
-    return getNextTrajectoryWaypoints().size();};
+    const auto& wps =getNextTrajectoryWaypoints();
+    int n_size = wps.size();
+    for (const auto& wp : wps){
+      if (wp.getName() == "stitching_point"){
+        // std::cout << "Not accounting for stitching_point"<< std::endl;
+        n_size -= 1;
+      }
+      else{
+        break;
+      }
+      
+    }
+    // std::cout << "Remaining waypoints to be evaluated: " << n_size << std::endl;
+    // for (const auto& wp : wps) {
+    //   std::cout << "\t - " << wp.getName() << " at time: " << wp.getTime() << std::endl;
+    // }
+    return n_size;
+  }
 
   // principal functions
   void setWaypoints(const DynamicWaypoint::Vector &waypoints);
