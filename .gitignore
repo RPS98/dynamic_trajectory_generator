@@ -8,3 +8,4 @@ neovim.json
 COLCON_IGNORE
 ~/
 *.csv
+.vimspector.json
