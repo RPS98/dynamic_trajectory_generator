@@ -54,9 +54,16 @@ set_target_properties(${PYBIND_TARGET} PROPERTIES
   BUILD_RPATH "\$ORIGIN"
 )
 
-# Local mirror for PYTHONPATH usage: <build>/python/<PY_PACKAGE>/
+# Local mirror for PYTHONPATH usage. When PYBIND_PY_MIRROR_ROOT is set by a
+# parent project (umbrella build), all sub-pybinds share the same python/
+# tree. Otherwise fall back to the current binary dir.
 set(PYTHON_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/python/${PY_PACKAGE}")
-set(PYTHON_PACKAGE_BUILD_DIR  "${CMAKE_CURRENT_BINARY_DIR}/python/${PY_PACKAGE}")
+if(DEFINED PYBIND_PY_MIRROR_ROOT)
+  set(LOCAL_PY_MIRROR_ROOT "${PYBIND_PY_MIRROR_ROOT}")
+else()
+  set(LOCAL_PY_MIRROR_ROOT "${CMAKE_CURRENT_BINARY_DIR}/python")
+endif()
+set(PYTHON_PACKAGE_BUILD_DIR  "${LOCAL_PY_MIRROR_ROOT}/${PY_PACKAGE}")
 
 file(MAKE_DIRECTORY "${PYTHON_PACKAGE_BUILD_DIR}")
 set_target_properties(${PYBIND_TARGET} PROPERTIES
