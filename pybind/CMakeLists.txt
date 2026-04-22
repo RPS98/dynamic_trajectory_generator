@@ -50,8 +50,6 @@ target_link_libraries(${PYBIND_TARGET} PRIVATE dynamic_trajectory_generator)
 set_target_properties(${PYBIND_TARGET} PROPERTIES
   POSITION_INDEPENDENT_CODE ON
   INSTALL_RPATH "\$ORIGIN"
-  BUILD_WITH_INSTALL_RPATH TRUE
-  BUILD_RPATH "\$ORIGIN"
 )
 
 # Local mirror for PYTHONPATH usage. When PYBIND_PY_MIRROR_ROOT is set by a

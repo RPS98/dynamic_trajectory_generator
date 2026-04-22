@@ -32,6 +32,11 @@ __authors__ = 'Rafael Pérez Seguí'
 __copyright__ = 'Copyright (c) 2025 Universidad Politécnica de Madrid'
 __license__ = 'BSD-3-Clause'
 
-from ._dynamic_trajectory_generator_cpp import DynamicTrajectory
+from ._dynamic_trajectory_generator_cpp import _DynamicTrajectory
+from .trajectory import DynamicTrajectory, TrajectoryReference
 
-__all__ = ['DynamicTrajectory']
+__all__ = [
+    'DynamicTrajectory',
+    'TrajectoryReference',
+    '_DynamicTrajectory',
+]
